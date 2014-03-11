@@ -210,7 +210,7 @@ if __name__=="__main__":
     saveTrainedKMForNewsGroups(trainedKM)
     #===========================================================================
     trainedKM = loadTrainedKMForNewsGroups()
-    new_post = testData.data[10]
+    new_post = testData.data[20]
     print 'post to find similar posts to', new_post
     new_post_vec = trainedVectorizer.transform([new_post]) 
     new_post_label = trainedKM.predict(new_post_vec)[0]
