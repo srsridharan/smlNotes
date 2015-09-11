@@ -1,0 +1,56 @@
+import numpy as np
+from computeNumericalGradient import computeNumericalGradient
+
+def simpleQuadraticFunction(x):
+    # function [value,grad] = simpleQuadraticFunction(x)
+    # this function accepts a 2D vector as input.
+    # Its outputs are:
+    #   value: h(x1, x2) = x1^2 + 3*x1*x2
+    #   grad: A 2x1 vector that gives the partial derivatives of h with respect
+    #   to x1 and x2
+    # Note that when we pass @simpleQuadraticFunction(x) to
+    # computeNumericalGradient, we're assuming that computeNumericalGradient
+    # will use only the first returned value of this function.
+
+    value = x[0]**2 + 3*x[0]*x[1]
+
+    grad = np.zeros((2, 1))
+    grad[0] = 2*x[0] + 3*x[1]
+    grad[1] = 3*x[0]
+
+    return [value, grad]
+
+
+def checkNumericalGradient():
+    # This code can be used to check your numerical gradient implementation
+    # in computeNumericalGradient.py
+    # It analytically evaluates the gradient of a very simple function called
+    # simpleQuadraticFunction (see below) and compares the result with your
+    # numerical
+    # solution. Your numerical gradient implementation is incorrect if
+    # your numerical solution deviates too much from the analytical solution.
+
+    # Evaluate the function and gradient at x = [4; 10]; (Here, x is a 2d
+    # vector.)
+    x = np.array([4, 10]).reshape((-1, 1))
+    [value, grad] = simpleQuadraticFunction(x)
+
+    # Use your code to numerically compute the gradient of
+    # simpleQuadraticFunction at x.
+    # (The notation "@simpleQuadraticFunction" denotes a pointer to a function.)
+    numgrad = computeNumericalGradient(lambda y: simpleQuadraticFunction(y)[0],
+                                       x)
+
+    # Visually examine the two gradient computations.  The two columns
+    # you get should be very similar.
+    print [numgrad, grad]
+    print 'The above two columns you get should be very similar.\n(Left-Your\
+    Numerical Gradient, Right-Analytical Gradient)\n\n'
+
+    # Evaluate the norm of the difference between two solutions.
+    # If you have a correct implementation, and assuming you used EPSILON = 0.0001
+    # in computeNumericalGradient.m, then diff below should be 2.1452e-12
+    diff = np.linalg.norm(numgrad - grad)/np.linalg.norm(numgrad + grad)
+    print diff
+    print 'Norm of the difference between numerical and analytical gradient \
+    (should be < 1e-9)\n\n'
